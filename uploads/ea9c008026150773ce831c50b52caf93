@@ -1,0 +1,27 @@
+/usr/bin/env: 'perl': No such file or directory
+lattice-lmrescore --lm-scale=-1.0 ark:- 'fstproject --project_output=true rescore/G.fst |' ark:- 
+lattice-lmrescore-const-arpa --lm-scale=1.0 ark:- rescore/G.carpa ark:- 
+lattice-to-ctm-conf --frame-shift=0.03 --acoustic-scale=1.0 ark:- - 
+lattice-align-words rescore/phones/word_boundary.int am/final.mdl ark:- ark:- 
+lattice-lmrescore-kaldi-rnnlm-pruned --lm-scale=0.5 --bos-symbol=709155 --eos-symbol=709156 --brk-symbol=709157 --lattice-compose-beam=4.0 --acoustic-scale=1.0 --max-ngram-order=4 rescore/G.fst 'rnnlm-get-word-embedding rnnlm/word_feats.txt rnnlm/feat_embedding.final.mat -|' rnnlm/final.raw ark:- ark:- 
+LOG (lattice-lmrescore-kaldi-rnnlm-pruned[5.5.989~1-66f5]:main():lattice-lmrescore-kaldi-rnnlm-pruned.cc:113) Reading old LMs...
+online2-wav-nnet3-latgen-faster --word-symbol-table=graph/words.txt --config=conf/model.conf --config=conf/online.conf am/final.mdl graph/HCLG.fst ark:decoder-test.utt2spk scp:decoder-test.scp ark:- 
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:ComputeDerivedVars():ivector-extractor.cc:183) Computing derived variables for iVector extractor
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:ComputeDerivedVars():ivector-extractor.cc:204) Done.
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:RemoveOrphanNodes():nnet-nnet.cc:948) Removed 0 orphan nodes.
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:RemoveOrphanComponents():nnet-nnet.cc:847) Removing 0 orphan components.
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:CompileLooped():nnet-compile-looped.cc:345) Spent 0.107961 seconds in looped compilation.
+rnnlm-get-word-embedding rnnlm/word_feats.txt rnnlm/feat_embedding.final.mat - 
+LOG (lattice-lmrescore-kaldi-rnnlm-pruned[5.5.989~1-66f5]:CompileLooped():nnet-compile-looped.cc:345) Spent 0.16726 seconds in looped compilation.
+new2_000_KinderovaAnna_01122021145040_00000120411_123456 крови цена на здравствуйте здравствуйте подскажите пожалуйста вязальная проволока четвёрка у вас по какой цене вам как можно обращаться егор егорыч в оренбурге заинтересует да в оренбурге четырёх миллиметров и то один рубль здесь это за килограмм да да сколько не покажутся погонных метров килограмм скажу десять метров ясно ясно наличие где не подскажите так давайте меня если честно интересует наделяет нас нет офиса продаж настолько на автоматике бесплатно автоматики ранее не брались и ничего не помню может быть играл против убрал наличие она есть но склад на автоматике десятеро автоматика пятёрка есть тоже есть большое количество надо где-то метров сто погонах четвёрки где-то метр пятьдесят пятёрки пятёрок сердца стук там семь метров что пятёрка стоит также только там семь метров все ладно спасибо за информацию большая игра не откуда она осознали рекламы в интернете в интернете нашли нас не могу чем-то помочь нет спасибо хорошо обращаются металлопрокат на этой неделе скидки действуют а ещё такой момент получается и колпаки тоже продаются на дал бы заборной надо сейчас по запросу нет единой цены на не могу уточнить по цене по сравнению там же по размерам изготовлен понял понял как бы сейчас пока не интересно просто забыла уточнить на всякий случай все ладно спасибо большое а получается там тоже офис автоматики да да офис да также есть автоматики забирай сразу же будете и самовывозом то лучше конечно автоматики подъезда доставлю выпустить заказывается доставка платная это может попросить как чувствовали себя планируете для себя для что ещё могу чем-то помочь нет спасибо большое 
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:main():online2-wav-nnet3-latgen-faster.cc:296) Decoded utterance new2_000_KinderovaAnna_01122021145040_00000120411_123456
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:Print():online-timing.cc:36) Timing stats: real-time factor was 1.01178 (note: this cannot be less than one.)
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:Print():online-timing.cc:38) Average delay was 1.81942 seconds.
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:Print():online-timing.cc:42) Percentage of time spent idling was 67.6429
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:Print():online-timing.cc:44) Longest delay was 1.81942 seconds for utterance 'new2_000_KinderovaAnna_01122021145040_00000120411_123456'
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:main():online2-wav-nnet3-latgen-faster.cc:302) Decoded 1 utterances, 0 with errors.
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:main():online2-wav-nnet3-latgen-faster.cc:304) Overall likelihood per frame was 1.10219 per frame over 5149 frames.
+LOG (lattice-lmrescore[5.5.989~1-66f5]:main():lattice-lmrescore.cc:148) Done 1 lattices, failed for 0
+LOG (lattice-lmrescore-const-arpa[5.5.989~1-66f5]:main():lattice-lmrescore-const-arpa.cc:117) Done 1 lattices, failed for 0
+LOG (lattice-lmrescore-kaldi-rnnlm-pruned[5.5.989~1-66f5]:main():lattice-lmrescore-kaldi-rnnlm-pruned.cc:202) Overall, succeeded for 1 lattices, failed for 0
+LOG (lattice-align-words[5.5.989~1-66f5]:main():lattice-align-words.cc:126) Successfully aligned 1 lattices; 0 had errors.

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<title>Testing</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="css/main.css">
+
+	<script type="text/javascript">
+		$(document).ready(() => {
+			$("form").submit((event) => {
+				event.preventDefault();
+				$.ajax({
+					type: 'POST',
+					url: '/testing',
+					data: $('form').serialize(),
+					dataType: "json",
+					success: (response) => {
+						$('form')[0].reset();
+						if (response.Success === "You are regestered,You can login now.") {
+							document.getElementById("aa").click();
+						}
+					},
+					error: () => {
+					}
+				})
+			});
+		});
+
+		function sendData(){
+			document.querySelector("body").setAttribute("class", "loading");
+			$.ajax({
+				type: 'POST',
+				url: '/testing',
+				data: $('form').serialize(),
+				dataType: "json",
+				success: (response) => {
+					if (response.Success === "removeLoading") {
+						document.querySelector("body").removeAttribute("class");
+						document.querySelector(".buttonResult").removeAttribute("style");
+						document.querySelector(".buttonResult span").innerHTML = response.resultWeight;
+					}
+				},
+				error: () => {
+				}
+			})
+		}
+	</script>
+</head>
+<style>
+
+	.files{
+		border: 1px solid #dbdbdb;
+		width: 200px;
+		height: 200px;
+		background: rgb(245, 245, 245);
+		outline: none;
+		box-shadow: 0 0 13px #555555;
+		margin: 10px;
+		padding: 10px;
+	}
+	.unselectable {
+		-webkit-touch-callout: none; /* iOS Safari */
+		-webkit-user-select: none;   /* Chrome/Safari/Opera */
+		-khtml-user-select: none;    /* Konqueror */
+		-moz-user-select: none;      /* Firefox */
+		-ms-user-select: none;       /* Internet Explorer/Edge */
+		user-select: none;           /* Non-prefixed version, currently
+                                  not supported by any browser */
+	}
+	a.buttonNewFile{
+		color: black;
+		font-size: 20px;
+		background: rgb(190, 199, 255);
+		padding: 20px;
+		margin: 30px;
+		display: inline-block;
+		border: 1px solid rgb(161, 168, 255);
+		border-radius: 20px;
+		cursor: pointer;
+		text-decoration: none;
+	}
+	.textArea p,
+	#conditionalBlock p,
+	#keywordsBlock p{
+		color: #515151;
+		font-size: 15px;
+		font-style: italic;
+		margin: 10px 0 0 0;
+	}
+
+	#conditionalBlock,
+	#keywordsBlock{
+		background: #f1f1f1;
+		display: inline-block;
+		padding: 10px;
+		border: 1px solid #d1d1d1;
+	}
+
+	#conditionalBlock textarea,
+	#keywordsBlock textarea{
+		height: 200px;
+		width: 200px;
+	}
+
+	.alignment{
+		display: inline-block;
+		text-align: left;
+	}
+
+	#Mode, #Type, #Words{
+		width: 30%;
+		display: inline-block;
+		vertical-align: top;
+	}
+
+	.buttonResult{
+		background: #c6f2fb;
+		padding: 20px 40px;
+		display: inline-block;
+		border-radius: 20px;
+	}
+</style>
+<body>
+<h1>Проверка тестирования</h1>
+<p class="buttonResult" style="display: none">Результат: <span></span></p>
+<br>
+	<form style="display: block">
+		<h2>Скрипт</h2>
+		<h3>Блок для тестирования</h3>
+		<br>
+		<div id="Mode">
+			<h4>Выберите режим блока</h4>
+			<div class="alignment">
+				<label>
+					<input checked type="radio" name="blockMode" oninput="checkBlock(false)"> Обычный блок
+				</label>
+				<br>
+				<label>
+					<input type="radio" name="blockMode" oninput="checkBlock(true)"> Условный блок
+				</label>
+			</div>
+			<br>
+			<div id="conditionalBlock" style="display: none;">
+				<label>
+					<p>Условный блок</p>
+					<br>
+					<textarea name="conditionalBlock"></textarea>
+				</label>
+				<br>
+			</div>
+
+			<div id="keywordsBlock">
+				<label>
+					<p>Ключевые слова для скрипта</p>
+					<br>
+					<textarea name="keywordsBlock"></textarea>
+				</label>
+				<br>
+				<h4>Коэффициент</h4>
+				<label>
+					<input type="number" name="coefficient" min="0.01" value="0.01" step="0.01" style="text-align: left;">
+				</label>
+			</div>
+
+		</div>
+		<div id="Words">
+			<h4>Слова для блока</h4>
+			<label>
+				<textarea style="height: 200px" name="Words"></textarea>
+			</label>
+			<br>
+			<h5>Вес блока</h5>
+			<label>
+				<input type="number" min="1" value="1" name="weight" style="text-align: left;">
+			</label>
+		</div>
+		<div id="Type">
+			<h4>Выберите тип блока</h4>
+			<div class="alignment">
+				<label>
+					<input checked type="radio" name="blockType" value="simple"> Простой блок
+				</label>
+				<br>
+				<label>
+					<input type="radio" name="blockType" value="complex"> Сложный блок
+				</label>
+				<br>
+				<label>
+					<input type="radio" name="blockType" value="special"> Особый блок
+				</label>
+			</div>
+		</div>
+		<input type="text" id="TextFileAll" name="TextFileAll" hidden>
+	</form>
+<hr>
+<div style="display: block">
+	<h2 id="nameFile">Файл</h2>
+	<label class="textArea">
+		<p>Файл №1</p>
+		<textarea class="files"></textarea>
+	</label>
+	<label class="textArea" style="display: none">
+		<p>Файл №2</p>
+		<textarea class="files"></textarea>
+	</label>
+	<label class="textArea" style="display: none">
+		<p>Файл №3</p>
+		<textarea class="files"></textarea>
+	</label>
+	<label class="textArea" style="display: none">
+		<p>Файл №4</p>
+		<textarea class="files"></textarea>
+	</label>
+
+	<br>
+	<a class="unselectable buttonNewFile" onclick="addNewFile()"> Добавить еще 1 файл</a>
+</div>
+
+<!-- TESTING ICON -->
+<style>
+	#testingIcon{
+		position: fixed;
+		bottom: 10px;
+		right: 10px;
+		animation: testingAnimation 1s infinite;
+	}
+	#testingIcon img{
+		width: 100px;
+		height: 100px;
+		cursor: pointer;
+	}
+
+	@keyframes testingAnimation {
+		0% { bottom: 10px; }
+		50% {bottom: 20px;}
+		100% {bottom: 10px;}
+	}
+
+	@keyframes hideTestingAnimation {
+		0% { opacity: 1 }
+		100% {opacity: 0 }
+	}
+</style>
+<div id="testingIcon" onclick="hideTesting()">
+	<img src="img/testing.png" alt="testing">
+</div>
+<script>
+	let blockTestingGeneral = document.getElementById("testingIcon");
+	let blockTesting = blockTestingGeneral.querySelector("img");
+	function hideTesting(){
+		//blockTesting.style.animation = "hideTestingAnimation 1s forwards";
+		setTimeout(() => {
+			//blockTestingGeneral.style.display = "none";
+
+		}, 1000);
+		getAllTextFiles();
+	}
+</script>
+
+
+<!-- LOADING -->
+<style>
+	/* Start by setting display:none to make this hidden.
+   Then we position it in relation to the viewport window
+   with position:fixed. Width, height, top and left speak
+   for themselves. Background we set to 80% white with
+   our animation centered, and no-repeating */
+	.modal {
+		display:    none;
+		position:   fixed;
+		z-index:    1000;
+		top:        0;
+		left:       0;
+		height:     100%;
+		width:      100%;
+		background: rgba( 255, 255, 255, .8 )
+		url('http://i.stack.imgur.com/FhHRx.gif')
+		50% 50%
+		no-repeat;
+	}
+
+	/* When the body has the loading class, we turn
+       the scrollbar off with overflow:hidden */
+	body.loading .modal {
+		overflow: hidden;
+	}
+
+	/* Anytime the body has the loading class, our
+       modal element will be visible */
+	body.loading .modal {
+		display: block;
+	}
+</style>
+<div class="modal"><!-- Place at bottom of page --></div>
+</body>
+<script>
+	let counter = 1;
+	let textarea = document.querySelectorAll(".textArea");
+	let buttonNewFile = document.querySelector(".buttonNewFile");
+	function addNewFile(){
+		if(counter !== 4){
+			textarea[counter].style.display = "";
+			counter++;
+		}else{
+			alert("Выведено максимальное количество файлов");
+		}
+		if(counter === 2) document.getElementById("nameFile").innerText = "Файлы";
+		if(counter === 4){
+			buttonNewFile.style.background = "rgb(255 190 190)";
+			buttonNewFile.style.borderColor = "rgb(255 161 161)";
+			buttonNewFile.style.cursor = "no-drop";
+			buttonNewFile.removeAttribute("onclick");
+			buttonNewFile.innerHTML = "Добавлено максимальное количество";
+		}
+	}
+</script>
+<script>
+	let conditionalInput = document.getElementById("conditionalBlock");
+	let keywordsBlock = document.getElementById("keywordsBlock");
+	function checkBlock(value){
+		if(value){
+			conditionalInput.style.display = "inline-block";
+
+			keywordsBlock.style.display = "none";
+			keywordsBlock.querySelector("textarea").value = "";
+		}else{
+			conditionalInput.style.display = "none";
+			conditionalInput.querySelector("textarea").value = "";
+
+			keywordsBlock.style.display = "inline-block";
+		}
+	}
+</script>
+
+<script>
+	let textAreaValue = document.querySelectorAll(".files");
+	let text = "";
+	let inputTextFile = document.getElementById("TextFileAll");
+	function getAllTextFiles(){
+		text = "";
+		textAreaValue.forEach(elem => {
+			text += elem.value.toString().replaceAll("\n", " ") + " ";
+		})
+		inputTextFile.setAttribute("value", text);
+		sendData();
+	}
+</script>
+</html>

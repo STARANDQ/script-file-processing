@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Login Register App</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="css/main.css">
+
+	<script type="text/javascript">
+	</script>
+</head>
+
+<body>
+<div class="col-md-4 col-md-offset-4 form-card">
+	<div>
+		<p>Управление акаунтами</p>
+	</div>
+	<input type="date" id = "dateFirst">
+	<input type="date" id = "dateSecond">
+	<input type="button" value="Сортировать по дате" onclick="sortDate()">
+	<br><br>
+	<select id="user">
+		<%data.forEach(elem => { %>
+			<option value="<%= elem.login %>"><%= elem.surname%> <%= elem.name%></option>
+		<% })%>
+	</select>
+	<button onclick="setUser()">Привязка к имени</button>
+	<h6 style="display: none;" id="userLogin">Привязанное имя: <span></span> <button onclick="clearUser()">Очистить</button></h6>
+	<div>
+		<p style="cursor: pointer" onclick="scriptInfo()">Скрыть / Показать информацию</p>
+		<center>
+			<table class="table table-hover text-center">
+
+				<tr>
+					<td>Логин</td>
+					<td>Фамилия</td>
+					<td>Имя</td>
+					<td>Отчество</td>
+				</tr>
+				<% data.forEach(elem => {  %>
+					<tr class="userName" data-user="<%= elem.login %>" onclick="window.location.href='/user/<%= elem.login %>'">
+						<td><%= elem.login %></td>
+						<td><%= elem.surname %></td>
+						<td><%= elem.name %></td>
+						<td><%= elem.patronymic %></td>
+					</tr>
+					<tr class="userName" data-user="<%= elem.login %>" onclick="window.location.href='/user/<%= elem.login %>'">
+						<td colspan="4" class="scriptInfo">
+							<div>
+								<%history.forEach(scripts => {
+									if(scripts.userID === elem.unique_id){
+										scripts.scriptInfo.forEach(script => { %>
+											<input class="inputDate" value="<%= scripts.date %>" type="text" hidden="hidden">
+											<div data-date="<%= scripts.date %>" class="dataDiv">
+												<h2><%= script.nameScript %></h2>
+												<span class="dataFormat"><%= scripts.date %></span>
+												<br>
+												<progress value="<%= script.weightScript %>" max="100"></progress> <%= Math.round(script.weightScript) %> %
+												<br>
+												<h3>Разделы</h3>
+
+												<%script.arrayChapter.forEach(chapter => { %>
+												<%= chapter.nameChapter %>
+													<progress
+															value="<%= chapter.weightChapter %>"
+															max="<%= chapter.generalChapter %>">
+													</progress>
+													<%=  Math.round(chapter.weightChapter * 100 / chapter.generalChapter) %> %
+													<br>
+												<% })%>
+												<hr>
+											</div>
+										<%});
+									}
+								})%>
+							</div>
+						</td>
+					</tr>
+				<% } ) %>
+			</table>
+		</center>
+	</div>
+	<div class="abc">
+		<a href="/profile">Назад</a>
+	</div>
+	<br><br>
+</div>
+<script>
+	let showInfo = true;
+	let user = "";
+	let scriptsInfo = document.querySelectorAll('.scriptInfo');
+	function scriptInfo(){
+		if(showInfo) scriptsInfo.forEach(elem => elem.style.display = "none");
+		else scriptsInfo.forEach(elem => elem.style.display = "table-cell");
+		showInfo = !showInfo;
+	}
+
+	let dateFirst = document.getElementById("dateFirst");
+	let dateSecond = document.getElementById("dateSecond");
+	let dates = document.querySelectorAll(".inputDate");
+
+	function sortDate(){
+		dates.forEach(date => {
+				if( new Date(date.value) > new Date(dateFirst.value) &&
+					new Date(date.value) < new Date(dateSecond.value)){
+						document.querySelectorAll('.dataDiv').forEach(divs => {
+							if(divs.getAttribute("data-date") === date.value){
+								divs.style.display = "block";
+							}
+						})
+				}else{
+					document.querySelectorAll('.dataDiv').forEach(divs => {
+						if(divs.getAttribute("data-date") === date.value){
+							divs.style.display = "none";
+						}
+					})
+				}
+
+		})
+	}
+
+	function setUser(){
+		user = document.getElementById("user").value;
+		document.querySelectorAll(".userName").forEach(elem => {
+			elem.style.display = "table-row";
+		})
+		document.querySelectorAll(".userName").forEach(elem => {
+			if(elem.getAttribute("data-user") !== user) elem.style.display = "none";
+		})
+		document.getElementById("userLogin").style.display = "block";
+	}
+
+	function clearUser(){
+		user = "";
+		document.querySelectorAll(".userName").forEach(elem => {
+			elem.style.display = "table-row";
+		})
+		document.getElementById("userLogin").style.display = "none";
+	}
+
+</script>
+</body>
+
+</html>

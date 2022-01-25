@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Login Register App</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="css/main.css">
+
+
+	<script type="text/javascript">
+		let login = null;
+		let check = true;
+
+		function checkLogin(){
+			login =	document.getElementById("login");
+			console.log("e");
+			<% data.users.forEach(elem => { %>
+			if(login.value === "<%= elem.login %>") {
+				login.style.borderColor = "red";
+				check = false;
+				return;
+			}
+			<% }) %>
+			check = true;
+			login.style.borderColor = null;
+		}
+
+		$(document).ready(() => {
+			$("#form1").submit((event) => {
+				event.preventDefault();
+				if(!check) return;
+				$.ajax({
+					type: 'POST',
+					url: '/register',
+					data: $('#form1').serialize(),
+					dataType: "json",
+					success: (response) => {
+						$('#form1')[0].reset();
+						document.getElementById("check").innerHTML = response.Success;
+						setTimeout(() => {
+							document.getElementById("check").innerHTML = "";
+						}, 3000);
+						if (response.Success == "You are regestered,You can login now.") {
+							document.getElementById("aa").click();
+						}
+					},
+					error: () => {
+					}
+				})
+			});
+		});
+	</script>
+</head>
+
+<body>
+
+	<div class="col-md-4 col-md-offset-4 form-card">
+		<div>
+			<p>Register Now
+			</p>
+		</div>
+		<div class="form-group">
+			<form id="form1" method="post">
+				<input id="login" type="text" name="login" placeholder="Логин" required class="form-control" onchange="checkLogin()"><br />
+				<input type="text" name="name" placeholder="Имя" required class="form-control"><br />
+				<input type="text" name="surname" placeholder="Фамилия" required class="form-control"><br />
+				<input type="text" name="patronymic" placeholder="Отчество" required class="form-control"><br />
+				<input style="display: none" id="emailJS" type="email" name="email" placeholder="Email" class="form-control"><br />
+				<select class="form-control" name = "role" required onchange="checkValue()">
+					<option value="admin">Администратор</option>
+					<option value="supervisor">Руководитель</option>
+					<option value="employee">Сотрудник</option>
+				</select><br/>
+				<div id = "add"></div>
+				<input type="password" name="password" placeholder="Пароль" required class="form-control"><br />
+				<input type="submit" value="Register" class="btn btn-success">
+			</form>
+		</div>
+
+		<div class="mssg bg-danger">
+			<span id="check"></span>
+		</div>
+		<div id="LangTable"><a href="/profile" id="aa"></a>
+		</div>
+	</div>
+<script>
+	let select = document.querySelector("select");
+	let div = document.getElementById("add");
+	function checkValue(){
+		div.innerHTML = '';
+		if(select.value === "supervisor"){
+			document.getElementById("emailJS").style.display = "block";
+		}else{
+			document.getElementById("emailJS").style.display = "none";
+		}
+		if(select.value === "employee"){
+			div.innerHTML += `
+			<input type = "text" required class="form-control" name = "fileIdentification" placeholder = "Индетификатор"><br>
+				<select class = 'form-control' name='supervisor'>
+					<% data.users.forEach(elem => { %>
+					<% if(elem.role === "supervisor") {%>
+						<option value='<%= elem.login %>'><%= elem.name %> <%= elem.surname %> <%= elem.patronymic %></option>
+					<% } })%>
+				</select><br>
+				<select class = 'form-control' name='script'>
+					<% data.scripts.forEach(elem => {
+						if(elem.status !== "Архивирован"){ %>
+						<option value='<%= elem.unique_id %>'><%= elem.name %> <%= elem.surname %> <%= elem.patronymic %></option>
+						<%}})%>
+				</select><br>
+			`;
+		}
+	}
+</script>
+</body>
+
+</html>

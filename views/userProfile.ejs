@@ -1,0 +1,194 @@
+<%
+function dataFormat(data){
+	return data.toDateString() + " | " + data.toLocaleTimeString();
+}
+%>
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Login Register App</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../css/main.css">
+</head>
+<style>
+	.hiddenElement{
+		display: none;
+	}
+
+	.element{
+		padding: 5px;
+		transition: .2s;
+	}
+	.element:hover{
+		background: #ede8de;
+		transition: .2s;
+	}
+
+	.WordBlock{
+		font-size: 20px;
+	}
+
+	.WordYes{
+		color: #40a740;
+	}
+
+	.WordYes:before{
+		content: '✔ ';
+	}
+
+	.WordNo{
+		color: darkred;
+	}
+</style>
+<body>
+<script>
+	let check = true;
+</script>
+<%
+	let chapterGeneral = 0;
+	let chapterValue = 0;
+	let blockValue = 0;
+	let blockTemp = 0;
+	let arrWords = [];
+ %>
+	<div class="col-md-4 col-md-offset-4 form-card">
+		<div>
+			<p><%= login %></p>
+		</div>
+		<div>
+			<input type="date" id = "dateFirst">
+			<input type="date" id = "dateSecond">
+			<input type="button" value="Сортировать по дате" onclick="sortDate()"><br><br></br>
+			<center>
+				<table class="table table-hover text-center">
+					<tr>
+						<td>Имя</td>
+						<td>
+							<%= name %>
+						</td>
+					</tr>
+					<tr>
+						<td>Фамилия</td>
+						<td><%= surname %></td>
+					</tr>
+					<tr>
+						<td>Отчество</td>
+						<td><%= patronymic %></td>
+					</tr>
+					<tr>
+						<td>Роль</td>
+						<td>
+							<%=  %>
+							<% if (role === "admin") { %>
+								<span style="color:red">Администратор</span>
+							<% } else if(role === "supervisor") { %>
+								<span style="color:blue">Руководитель</span>
+							<% } else if(role === "employee") { %>
+								<span style="color:grey">Сотрудник</span>
+							<% } else { %>
+								role
+							<% } %>
+						</td>
+					</tr>
+				</table>
+			</center>
+			<h1>Скрипты пользователя</h1>
+			<%console.log(history); history.forEach(script => { %>
+			<div class="element" onclick="clickElement(this)">
+				<input class="inputDate" value="<%= script.date %>" type="text" hidden="hidden">
+				<div data-date="<%= script.date %>" class="dataDiv" style="cursor: pointer">
+					<h2><%= script.scriptName %></h2>
+					<span class="dataFormat"><%= script.date %></span>
+					<br>
+					Общее значение скрипта: <progress value="<%= Math.round(script.totalInfo) %>" max="100"></progress> <%= Math.round(script.totalInfo) %> %
+					<br>
+					<div class="hiddenElement" data-type="hidden">
+					<h3>Разделы</h3>
+
+					<%script.arrChapters.forEach(chapter => { console.log(chapter)%>
+					<% chapter.forEach(chapter_B => { %>
+						<%= chapter_B.nameChapter %>
+						<progress
+								value="<%= +chapter_B.weightChapter %>"
+								max="<%= +chapter_B.generalChapter %>">
+						</progress>
+						<%=  Math.round(+chapter_B.weightChapter * 100 / +chapter_B.generalChapter) %> %
+						<br>
+
+					<% chapter_B.arrBlocks.forEach(block => { %>
+						<h3>Блоки</h3>
+						<h4><%= block.nameBlock %></h4>
+						<h4>Вес блока <progress
+									value="<%= block.weightBlock %>"
+									max="<%= block.generalBlockWeight %>"
+							></progress><%= Math.round((block.weightBlock * 100) / block.generalBlockWeight) %> %
+							(<%= Math.round(block.weightBlock) %> / <%= block.generalBlockWeight %>)
+						</h4>
+							<% block.generalWords.forEach(generalWord => {
+								if(block.arrWords.indexOf(generalWord) !== -1){ %>
+									<p class="WordBlock WordYes"><%= generalWord %></p>
+								<% }else{ %>
+									<p class="WordBlock WordNo"><%= generalWord %></p>
+								<% } %>
+							<%})%>
+							<!--<button onclick="check = false;" disabled>Применить изменения</button><br><br> -->
+					<% }); });%>
+					<% })%>
+					<hr>
+				</div>
+				</div>
+			<%
+			%></div><%
+			})%>
+		</div>
+		<div class="abc" id="LangTable">
+			<a href="/userInfo">Назад</a>
+		</div>
+	</div>
+</body>
+
+<script>
+	let hiddenElement;
+	function clickElement(element){
+		if(check){
+			hiddenElement = element.querySelector("div[data-type='hidden']");
+			if(hiddenElement.classList.value === "hiddenElement")
+				hiddenElement.classList.remove("hiddenElement");
+			else
+				hiddenElement.classList.add("hiddenElement");
+		}
+		check = true;
+	}
+
+
+	let dateFirst = document.getElementById("dateFirst");
+	let dateSecond = document.getElementById("dateSecond");
+	let dates = document.querySelectorAll(".inputDate");
+
+	function sortDate(){
+		dates.forEach(date => {
+			if( new Date(date.value) > new Date(dateFirst.value) &&
+					new Date(date.value) < new Date(dateSecond.value)){
+				document.querySelectorAll('.dataDiv').forEach(divs => {
+					if(divs.getAttribute("data-date") === date.value){
+						divs.style.display = "block";
+					}
+				})
+			}else{
+				document.querySelectorAll('.dataDiv').forEach(divs => {
+					if(divs.getAttribute("data-date") === date.value){
+						divs.style.display = "none";
+					}
+				})
+			}
+
+		})
+	}
+</script>
+
+</html>

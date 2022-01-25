@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Login Register App</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="css/main.css">
+</head>
+
+
+<style>
+	.hiddenElement{
+		display: none;
+	}
+
+	.element{
+		cursor: pointer;
+		display: inline-block;
+		padding: 2px;
+		transition: .1s;
+	}
+
+	.element:hover{
+		background: #f1f1f1;
+		transition: .1s;
+	}
+</style>
+
+<body>
+<a href="/profile">Назад</a><br><br>
+<% data.file.forEach(file => { %>
+	<div class="element" onclick="clickElement(this)">
+		<%= file.fileName %>.txt <% if(file.fileStatus === "checked") {
+		%> <span style="color:green">✔</span> <%
+		%>
+		<div class="hiddenElement" data-type="hidden">
+			<% data.history.forEach(elementHistory => {
+				if(elementHistory.fileID === file.unique_id){
+					elementHistory.scriptInfo.forEach(script => { %>
+					<span>Имя скрипта: <%= script.nameScript %></span><br><br>
+					<% if(script.arrayChapter)
+						script.arrayChapter.forEach(chapter => { %>
+							<span>Раздел: <%= chapter.nameChapter %></span><br><br>
+							<% chapter.arrBlocks.forEach(block => { %>
+								<span>Блок: <%= block.nameBlock%></span><br>
+								<span>Вес: <%= block.weightBlock%></span><br>
+								<span>Тип: <%= block.typeBlock%></span><br><br>
+						<%
+							})
+						})
+			 		})
+				}
+			})
+		%>
+		</div>
+		<%}%>
+	</div><br>
+<%}); %>
+</body>
+<script>
+	let hiddenElement;
+	function clickElement(element){
+		hiddenElement = element.querySelector("div[data-type='hidden']");
+		if(hiddenElement.classList.value === "hiddenElement")
+			hiddenElement.classList.remove("hiddenElement");
+		else
+			hiddenElement.classList.add("hiddenElement");
+	}
+</script>
+</html>

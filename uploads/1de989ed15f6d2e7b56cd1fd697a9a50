@@ -1,0 +1,27 @@
+/usr/bin/env: 'perl': No such file or directory
+lattice-to-ctm-conf --frame-shift=0.03 --acoustic-scale=1.0 ark:- - 
+lattice-lmrescore --lm-scale=-1.0 ark:- 'fstproject --project_output=true rescore/G.fst |' ark:- 
+lattice-lmrescore-const-arpa --lm-scale=1.0 ark:- rescore/G.carpa ark:- 
+lattice-align-words rescore/phones/word_boundary.int am/final.mdl ark:- ark:- 
+lattice-lmrescore-kaldi-rnnlm-pruned --lm-scale=0.5 --bos-symbol=709155 --eos-symbol=709156 --brk-symbol=709157 --lattice-compose-beam=4.0 --acoustic-scale=1.0 --max-ngram-order=4 rescore/G.fst 'rnnlm-get-word-embedding rnnlm/word_feats.txt rnnlm/feat_embedding.final.mat -|' rnnlm/final.raw ark:- ark:- 
+LOG (lattice-lmrescore-kaldi-rnnlm-pruned[5.5.989~1-66f5]:main():lattice-lmrescore-kaldi-rnnlm-pruned.cc:113) Reading old LMs...
+online2-wav-nnet3-latgen-faster --word-symbol-table=graph/words.txt --config=conf/model.conf --config=conf/online.conf am/final.mdl graph/HCLG.fst ark:decoder-test.utt2spk scp:decoder-test.scp ark:- 
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:ComputeDerivedVars():ivector-extractor.cc:183) Computing derived variables for iVector extractor
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:ComputeDerivedVars():ivector-extractor.cc:204) Done.
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:RemoveOrphanNodes():nnet-nnet.cc:948) Removed 0 orphan nodes.
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:RemoveOrphanComponents():nnet-nnet.cc:847) Removing 0 orphan components.
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:CompileLooped():nnet-compile-looped.cc:345) Spent 0.0964651 seconds in looped compilation.
+rnnlm-get-word-embedding rnnlm/word_feats.txt rnnlm/feat_embedding.final.mat - 
+LOG (lattice-lmrescore-kaldi-rnnlm-pruned[5.5.989~1-66f5]:CompileLooped():nnet-compile-looped.cc:345) Spent 0.130976 seconds in looped compilation.
+new2_000_KinderovaAnna_02122021152810_00000120724_123456 алло добрый день подскажите пожалуйста просто лист оцинкованный двадцать первая волна в какую цену толщина металла какая у вас интересует ноль пять в оренбурге в оренбурге вам как можно обращаться алексей алексеевич минута сейчас посмотрю при каком настроении планируете использовать для какого строения планируете использовать компания комплексное доборные элементы конёк ветровые ты также можем предложить вам первая но все-таки толщине пятьсот шестьдесят семь рублей за квадратный метр сколько пятьсот шестьдесят семь шестьдесят семь рублей за квадратный метр нас акция различные проходит от объёма закон то есть всегда присутствует вам известно потребуется труда да и по поводу узнаю сколько может стоить с размерами обращайтесь у нас акция проходит акция покупая зимой там действуют скидки зависимости от суммы покупки восемь рублей с квадратного метра скидки предоставляются непосредственно профлист на доборные элементы конёк ветра выйдут процентов скидки российские материал скакать по толщине уже для кровли он будет обладать необходимой прочности ранее не брали у нас ещё ничего такого откуда информация о нас узнали просто ещё от морского услуг в интернете нашли поняла ещё можно остались какие-то вопросы пока нет размерами обращайтесь произведём более детальный расчёт со скидкой хорошо 
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:main():online2-wav-nnet3-latgen-faster.cc:296) Decoded utterance new2_000_KinderovaAnna_02122021152810_00000120724_123456
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:Print():online-timing.cc:36) Timing stats: real-time factor was 1.00937 (note: this cannot be less than one.)
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:Print():online-timing.cc:38) Average delay was 1.1995 seconds.
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:Print():online-timing.cc:42) Percentage of time spent idling was 72.377
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:Print():online-timing.cc:44) Longest delay was 1.1995 seconds for utterance 'new2_000_KinderovaAnna_02122021152810_00000120724_123456'
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:main():online2-wav-nnet3-latgen-faster.cc:302) Decoded 1 utterances, 0 with errors.
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:main():online2-wav-nnet3-latgen-faster.cc:304) Overall likelihood per frame was 1.27279 per frame over 4266 frames.
+LOG (lattice-lmrescore[5.5.989~1-66f5]:main():lattice-lmrescore.cc:148) Done 1 lattices, failed for 0
+LOG (lattice-lmrescore-const-arpa[5.5.989~1-66f5]:main():lattice-lmrescore-const-arpa.cc:117) Done 1 lattices, failed for 0
+LOG (lattice-lmrescore-kaldi-rnnlm-pruned[5.5.989~1-66f5]:main():lattice-lmrescore-kaldi-rnnlm-pruned.cc:202) Overall, succeeded for 1 lattices, failed for 0
+LOG (lattice-align-words[5.5.989~1-66f5]:main():lattice-align-words.cc:126) Successfully aligned 1 lattices; 0 had errors.

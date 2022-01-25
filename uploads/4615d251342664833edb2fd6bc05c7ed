@@ -1,0 +1,27 @@
+/usr/bin/env: 'perl': No such file or directory
+lattice-lmrescore-const-arpa --lm-scale=1.0 ark:- rescore/G.carpa ark:- 
+lattice-to-ctm-conf --frame-shift=0.03 --acoustic-scale=1.0 ark:- - 
+lattice-lmrescore --lm-scale=-1.0 ark:- 'fstproject --project_output=true rescore/G.fst |' ark:- 
+lattice-align-words rescore/phones/word_boundary.int am/final.mdl ark:- ark:- 
+lattice-lmrescore-kaldi-rnnlm-pruned --lm-scale=0.5 --bos-symbol=709155 --eos-symbol=709156 --brk-symbol=709157 --lattice-compose-beam=4.0 --acoustic-scale=1.0 --max-ngram-order=4 rescore/G.fst 'rnnlm-get-word-embedding rnnlm/word_feats.txt rnnlm/feat_embedding.final.mat -|' rnnlm/final.raw ark:- ark:- 
+LOG (lattice-lmrescore-kaldi-rnnlm-pruned[5.5.989~1-66f5]:main():lattice-lmrescore-kaldi-rnnlm-pruned.cc:113) Reading old LMs...
+online2-wav-nnet3-latgen-faster --word-symbol-table=graph/words.txt --config=conf/model.conf --config=conf/online.conf am/final.mdl graph/HCLG.fst ark:decoder-test.utt2spk scp:decoder-test.scp ark:- 
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:ComputeDerivedVars():ivector-extractor.cc:183) Computing derived variables for iVector extractor
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:ComputeDerivedVars():ivector-extractor.cc:204) Done.
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:RemoveOrphanNodes():nnet-nnet.cc:948) Removed 0 orphan nodes.
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:RemoveOrphanComponents():nnet-nnet.cc:847) Removing 0 orphan components.
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:CompileLooped():nnet-compile-looped.cc:345) Spent 0.122736 seconds in looped compilation.
+rnnlm-get-word-embedding rnnlm/word_feats.txt rnnlm/feat_embedding.final.mat - 
+LOG (lattice-lmrescore-kaldi-rnnlm-pruned[5.5.989~1-66f5]:CompileLooped():nnet-compile-looped.cc:345) Spent 0.112829 seconds in looped compilation.
+new2_000_AltapovaMargarita_07122021163934_00000122394_123456 добрый день кровель маргарита здравствуйте а насчёт секционных ворот можно узнать цену секционные ворота да под заказ привозим какие подешевле дархан подешевле дархана вот размер допустим два высота два двадцать а ширина два сорок два двадцать ширина два два сорок так это секционные к вам как можно будет забрать и александр александр не покупали да ранее у нас не просто постоянным клиентам скидки предусмотрены поэтому уточняю давайте я поищу клиентов постоянно закажу большие скидки выйдут александр цвет какой планируете насчёт наподобе рубина спелые вишни напишу красный окрас темно красный цвет я сейчас формирует заявку менеджеры направлю она уточнить по стоимости в отделе снабжения по вашим размерам и тогда перезвони сориентирует вас с автоматикой автоматическая так по секционным ещё высота притолоки ну вот я вам размер сказал это с учётом притоки меня вообще они два сорок два сорок но там приток тринадцать сантиметров там не пройдёт это фальшь панель же придётся делать у вас получается куда будут устанавливаться гараж утеплённый не утеплённый не утеплённый дверь есть вторая дверь есть ненужные да так все записала тогда менеджер передан на этот номер да на это нет нет лучше давайте нас от то есть может уеду уже восемь девятьсот тридцать два восемьсот сорок один ноль двести пятьдесят двести пятьдесят в оренбурге да да да да так с доставкой с монтажом уточнить да да да хорошо тогда ожидайте звонка хорошо череду свиданий 
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:main():online2-wav-nnet3-latgen-faster.cc:296) Decoded utterance new2_000_AltapovaMargarita_07122021163934_00000122394_123456
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:Print():online-timing.cc:36) Timing stats: real-time factor was 1.00554 (note: this cannot be less than one.)
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:Print():online-timing.cc:38) Average delay was 0.871511 seconds.
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:Print():online-timing.cc:42) Percentage of time spent idling was 75.6551
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:Print():online-timing.cc:44) Longest delay was 0.871511 seconds for utterance 'new2_000_AltapovaMargarita_07122021163934_00000122394_123456'
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:main():online2-wav-nnet3-latgen-faster.cc:302) Decoded 1 utterances, 0 with errors.
+LOG (online2-wav-nnet3-latgen-faster[5.5.989~1-66f5]:main():online2-wav-nnet3-latgen-faster.cc:304) Overall likelihood per frame was 1.37475 per frame over 5248 frames.
+LOG (lattice-lmrescore[5.5.989~1-66f5]:main():lattice-lmrescore.cc:148) Done 1 lattices, failed for 0
+LOG (lattice-lmrescore-const-arpa[5.5.989~1-66f5]:main():lattice-lmrescore-const-arpa.cc:117) Done 1 lattices, failed for 0
+LOG (lattice-lmrescore-kaldi-rnnlm-pruned[5.5.989~1-66f5]:main():lattice-lmrescore-kaldi-rnnlm-pruned.cc:202) Overall, succeeded for 1 lattices, failed for 0
+LOG (lattice-align-words[5.5.989~1-66f5]:main():lattice-align-words.cc:126) Successfully aligned 1 lattices; 0 had errors.

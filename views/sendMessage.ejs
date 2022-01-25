@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Login Register App</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="css/main.css">
+
+	<script type="text/javascript">
+		function info(){
+			$.ajax({
+				type: 'POST',
+				url: '/sendMessage',
+				data: {
+					"EmailUser": document.getElementById("EmailUser").value,
+					"Subject": document.getElementById("Subject").value,
+					"text": document.getElementById("text").value,
+				},
+				dataType: "json",
+				success: (response) => {
+                    if (response.Success === "reload") {
+                        alert("Сообщение отправлено");
+                        window.location.reload();
+                    }
+                },
+				error: () => {
+				}
+			})
+		}
+	</script>
+</head>
+<style>
+	input{
+		font-size: 30px;
+		padding: 20px;
+		width: 700px;
+	}
+	p{
+		cursor: pointer;
+	}
+</style>
+<body>
+<br>
+	<input type="email" placeholder="Email пользователя для отправки" id="EmailUser"><br><br>
+	<input type="text" placeholder="Тема" id="Subject"><br><br>
+	<input type="text" placeholder="Текст" id="text"><br><br>
+	<p onclick="info()">Отправить</p>
+</body>
+
+</html>

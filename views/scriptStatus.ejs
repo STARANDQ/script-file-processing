@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Login Register App</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="css/main.css">
+
+	<script type="text/javascript">
+
+	</script>
+</head>
+
+<script>
+	function startScript(link){
+		$.ajax({
+			type: 'POST',
+			url: link,
+			contentType: 'application/json',
+			data: "",
+			success: (response) => {
+				if (response.Success === "reload") {
+					window.location.reload();
+				}
+			},
+			error: () => {
+			}
+		})
+	}
+</script>
+
+<body>
+<div class="col-md-4 col-md-offset-4 form-card">
+	<div>
+		<p>Control Script</p>
+		<% if(status){ %>
+			<p>Статус: Работает</p>
+		<% } else { %>
+			<p>Статус: В ожидании</p>
+		<% } %>
+		<p>Последнее обновление: <br> <%= dataStartScripts %></p>
+	</div>
+	<br>
+	<a onclick="startScript('/scriptStatus')">Запустить работу скрипта</a><br><br>
+	<div class="abc">
+		<a onclick="clearDataMDB()"> <span style="color:red; font-weight: bold; text-decoration: none; cursor: pointer;">Очистить данные</span></a>
+	</div>
+	<a href="/profile">Назад</a>
+</div>
+<script>
+	function clearDataMDB(){
+		if(confirm("Вы действительно хотите очистить данные с базы данных?")) window.location.href = "/clearAll";
+	}
+</script>
+</body>
+</html>
