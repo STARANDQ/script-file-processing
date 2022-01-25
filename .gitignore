@@ -1,2 +1,9 @@
-node_modules
 .idea
+node_modules
+backUp
+files
+ResultFile
+testFile
+uploads
+test.html
+test.js
