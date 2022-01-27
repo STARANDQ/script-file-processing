@@ -19,10 +19,10 @@ const func = async function(n,arrayFiles) {
         let fileID;
         let id = 0;
 
-        let GetInfoFileData = await new Promise(async (resolve, reject) => {
-            await FileData.findOne({}, async (err, data) => {
+        let GetInfoFileData = new Promise(async (resolve, reject) => {
+            FileData.findOne({}, async (err, data) => {
                 console.log(("[ - - - - - - ] " + "[ function_getSearchFile ] GetInfoFileData").red);
-                await resolve(data);
+                resolve(data);
             })
         });
 

@@ -1,9 +1,9 @@
 .idea
 node_modules
 backUp
-files
-ResultFile
+files/*
+ResultFile/*
 testFile
-uploads
+uploads/*
 test.html
 test.js
