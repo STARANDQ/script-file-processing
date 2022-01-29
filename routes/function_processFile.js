@@ -81,9 +81,10 @@ module.exports = function(fileID) {
 
                             console.log("\n");
 
+                            maxWeightScript = 0;
                             _arrChapter = [];
                             JSON.parse(data.script).forEach(chapter => {
-                                maxWeightScript = 0;
+                                maxWeightChapter = 0;
                                 console.log(chapter);
                                 _nameChapter = chapter.name;
                                 _arrBlocks = [];
@@ -91,9 +92,11 @@ module.exports = function(fileID) {
 
                                 chapter.blockArr.forEach(block => {
                                     _nameBlock = block.blockName;
+                                    maxWeightBlock = 0;
 
                                     maxWeightBlock += +block.blockWeight;
-
+                                    console.log({maxWeightBlock});
+                                    console.log({maxWeightChapter});
                                     result = checkBlockData({
                                         conditionalBlock: block.conditionalWords,
                                         words: block.keyWords.split("\n"),
@@ -111,7 +114,6 @@ module.exports = function(fileID) {
                                         "ratioBlock":proportion(+block.blockWeight, +result)
                                     })
                                     WeightChapter += +result;
-                                    console.log(result.toString().america);
                                     maxWeightChapter += +block.blockWeight;
 
 
@@ -126,7 +128,7 @@ module.exports = function(fileID) {
                                 WeightScript += +WeightChapter;
                                 maxWeightScript += +maxWeightChapter
 
-                            })
+                            });
 
 
                             console.log(JSON.stringify({

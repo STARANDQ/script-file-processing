@@ -47,7 +47,7 @@ module.exports = function(script) {
                 if (countWord !== 0)
                     //{сумма сумма слов блока в итоговом файле}/({количество слов в ключевом блоке}*коэф*{количество слов в условном блоке})*вес блока
                     resultWeight = countWord / (keysArr.length * script.coefficient * script.words.length) * script.weight
-            }
+            }       //{количество найденных слов внутри итогового файла}/({количество слов для блока}*{количество ключевых слов скрипта внутри итогового файла}*{коэф}))
 
             if (script.blockType === "special") {
                 if ((script.text.split(word).length - 1) > 0)
@@ -59,5 +59,5 @@ module.exports = function(script) {
             }
         });
         console.log(resultWeight);
-        return resultWeight;
+        return (resultWeight > script.weight) ? script.weight : resultWeight;
 }

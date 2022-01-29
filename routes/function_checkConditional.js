@@ -33,8 +33,11 @@ module.exports = function(script) {
 
         else if(script.blockType === "complex"){
             //{вес блока}*{количество слов в итоговом файле}/({количество слов условного блока}*{количество слов в блоке})
-            return (Math.round( ( script.weight * simpleWordsCount / (keysArr.length * script.words.length))));
+            //return (Math.round( ( script.weight * simpleWordsCount / (keysArr.length * script.words.length))));
             //resolve (Math.round( ( (simpleWordsCount / (keyCount * script.words.length) ) * script.weight) ) )
+            let result = (simpleWordsCount / (script.words.length / keyCount) ) * script.weight;
+            return (result > script.weight) ? script.weight : result;
+            //{количество найденных слов внутри итогового файла}/({количество слов для блока}*{количество найденных условных слов внутри итогового файла)). Если число>1 то значение равно весу блока, иначе умножаем на {вес блока}
         }
 
         else if(script.blockType === "special"){
