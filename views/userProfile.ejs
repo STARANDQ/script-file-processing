@@ -125,9 +125,21 @@ function dataFormat(data){
 						<h4><%= block.nameBlock %><progress
 									value="<%= block.valueBlock %>"
 									max="<%= block.maxValueBlock %>"
-							></progress><%= block.ratioBlock %> %
+							></progress><%= block.ratioBlock %> %<br>
 							(<%= Math.round(block.valueBlock) %> / <%= block.maxValueBlock %>)
 						</h4>
+							<br>
+							<div>
+								<% block.wordsArr.forEach(word => {
+									if(word.status){ %>
+										<span class="WordYes"><%= word.word %></span>
+									<% }else{ %>
+										<span><%= word.word %></span>
+									<% } %>
+									<br>
+
+								<% }) %>
+							</div>
 					<% });%>
 					<% })%>
 					<hr>
