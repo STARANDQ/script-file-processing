@@ -58,6 +58,5 @@ module.exports = function(script) {
                 if(resultWeight < 0) resultWeight = 0;
             }
         });
-        console.log(resultWeight);
         return (resultWeight > script.weight) ? script.weight : resultWeight;
 }

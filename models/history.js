@@ -11,7 +11,6 @@ historySchema = new Schema( {
 		type: Date,
 		default: Date.now
 	},
-	totalInfo: Number,
 	createdAt: {
 		type: Date,
 		default: Date.now

@@ -1,6 +1,5 @@
 const func = async function(n,arrayFiles) {
     if (n === -1){
-        console.log(("[ - - - - - - ] " + "[ function_getSearchFile ] n === -1").red);
         Logger.Message(Logger.Mode.SERVER, "Function getSearchFile was successful completed");
         await combineFiles().then();
         return n;
@@ -11,7 +10,6 @@ const func = async function(n,arrayFiles) {
         let newPath = (arrayFiles[n].toString().replace(arrayFiles[n].toString().replace(path.dirname(require.main.filename)+'/files/', ""), "") + newFileName).replace("/files/", "/uploads/");
         let fileName = (arrayFiles[n].toString().replace(path.dirname(require.main.filename)+'/files/', ""));
         await fs.rename(oldPath, newPath, function (err) {
-            console.log(("[ - - - - - - ] " + "[ function_getSearchFile ] fs.rename").red);
             if (err) Logger.Warn(Logger.Mode.FILE, err);
             Logger.Message(Logger.Mode.FILE, "File " + fileName + " renamed");
         });
@@ -21,15 +19,12 @@ const func = async function(n,arrayFiles) {
 
         let GetInfoFileData = new Promise(async (resolve, reject) => {
             FileData.findOne({}, async (err, data) => {
-                console.log(("[ - - - - - - ] " + "[ function_getSearchFile ] GetInfoFileData").red);
                 resolve(data);
             })
         });
 
         await GetInfoFileData.then(async function(GData) {
-            console.log(("[ - - - - - - ] " + "[ function_getSearchFile ] GetInfoFileData.then(1)").red);
             return await new Promise(async (resolve, reject) => {
-                console.log(("[ - - - - - - ] " + "[ function_getSearchFile ] return Promise").red);
                 fileID = getId(GData) + id;
                 id++;
                 let newFileData = new FileData({
@@ -41,7 +36,6 @@ const func = async function(n,arrayFiles) {
                 });
 
                 await newFileData.save(async (err, newFileData) => {
-                    console.log(("[ - - - - - - ] " + "[ function_getSearchFile ] newFileData.save").red);
                     if (err)
                         Logger.Warn(Logger.Mode.FILE, err);
                     else {
@@ -52,7 +46,6 @@ const func = async function(n,arrayFiles) {
                 });
             });
         }).then(async function(result) {
-            console.log(("[ - - - - - - ] " + "[ function_getSearchFile ] GetInfoFileData.then(2)").red);
             await func(n - 1,arrayFiles);
         });
 

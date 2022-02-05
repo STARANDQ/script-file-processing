@@ -51,24 +51,24 @@
 						<td colspan="4" class="scriptInfo">
 							<div>
 								<%history.forEach(scripts => {
-									if(scripts.userID === elem.unique_id){
-										scripts.scriptInfo.forEach(script => { %>
+								if(scripts.userID == elem.unique_id){
+										scripts.scriptInfo.forEach(script => { console.log(script)%>
 											<input class="inputDate" value="<%= scripts.date %>" type="text" hidden="hidden">
 											<div data-date="<%= scripts.date %>" class="dataDiv">
 												<h2><%= script.nameScript %></h2>
 												<span class="dataFormat"><%= scripts.date %></span>
 												<br>
-												<progress value="<%= script.weightScript %>" max="100"></progress> <%= Math.round(script.weightScript) %> %
+												<progress value="<%= script.valueScript %>" max="100"></progress> <%= script.ratioScript %> %
 												<br>
 												<h3>Разделы</h3>
 
-												<%script.arrayChapter.forEach(chapter => { %>
+												<%script.Chapters.forEach(chapter => { %>
 												<%= chapter.nameChapter %>
 													<progress
-															value="<%= chapter.weightChapter %>"
-															max="<%= chapter.generalChapter %>">
+															value="<%= chapter.valueChapter %>"
+															max="<%= chapter.maxValueChapter %>">§
 													</progress>
-													<%=  Math.round(chapter.weightChapter * 100 / chapter.generalChapter) %> %
+													<%=  chapter.ratioChapter %> %
 													<br>
 												<% })%>
 												<hr>

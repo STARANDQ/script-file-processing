@@ -6,6 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Статистика</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <style>
@@ -16,20 +17,56 @@
         font-weight: 100;
     }
 </style>
-<h2>Отчёт для руководителя: <b><%= name %> <%= surname %></b><span style="float: right">Дата: <input type="date" onchange="dateSet()" id="dateFirst" value='2021-12-01'> <input type="date" onchange="dateSet()" id="dateSecond" value='2021-12-30'></span></h2>
+
+<script>
+    function sendPost(dateFirst, dateSecond){
+        $.ajax({
+            type: 'POST',
+            url: '/stats',
+            data: {"dateFirst":dateFirst, "dateSecond": dateSecond, "idProfile": "<%= idProfile %>"},
+            dataType: "json",
+            success: (response) => {
+                if (response.Success === "reload") {
+
+                }
+                DataRender = response.data;
+                renderStats();
+            },
+            error: () => {
+                alert("ERROR");
+            }
+        });
+    }
+
+
+    let DataRender = <%-JSON.stringify(data) %>
+</script>
+
+
+<h2>Отчёт для руководителя: <b><%= name %> <%= surname %></b><span style="float: right">Дата: <input type="date" onchange="dateSet()" id="dateFirst"> <input type="date" onchange="dateSet()" id="dateSecond" style="margin-right: 50px;"></span></h2>
 <canvas id="myChart" style="width: 100vw"></canvas>
 <script src="JS/stats/chart.js"></script>
+<script src="https://momentjs.com/downloads/moment-with-locales.js"></script>
+
+<script>
+    let date = new Date(), y = date.getFullYear(), m = date.getMonth();
+    document.getElementById("dateFirst").value = moment( new Date(y, m, 1)).format("yyyy-MM-DD");
+    document.getElementById("dateSecond").value = moment( new Date()).format("yyyy-MM-DD");
+</script>
+
+
 <script>
 
     let inputLabel = [];
     const ctx = document.getElementById('myChart').getContext('2d');
     let myChart = null;
 function renderStats(){
+    console.log(DataRender);
     myChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: inputLabel,
-            datasets: <%-JSON.stringify(data) %>
+            datasets:DataRender
         },
         options: {
             scales: {
@@ -54,6 +91,7 @@ function dateSet(){
     console.log({dateSecond})
 
     if(dateFirst != null && dateSecond != null && dateFirst <= dateSecond){
+        sendPost(dateFirst, dateSecond);
         inputLabel = [];
         if(myChart !== null){
             myChart.destroy();
@@ -64,9 +102,10 @@ function dateSet(){
             inputLabel.push(dateToYMD(tempDate));
             tempDate.setDate(tempDate.getDate() + 1)
         }
-        renderStats();
     }
+
 }
+
 
     function dateToYMD(date) {
         let d = date.getDate();

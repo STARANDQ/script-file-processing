@@ -5,7 +5,7 @@ module.exports = function(profileID, dataFiles, req, res) {
         if (!data) {
             res.redirect('/profile');
         } else{
-            Result.find({userID: data.unique_id}, (err, dataHistory) => {
+            History.find({userID: data.unique_id}, (err, dataHistory) => {
                 dataFiles = dataHistory;
                 return res.render('userProfile.ejs', {
                     "id": data.unique_id,

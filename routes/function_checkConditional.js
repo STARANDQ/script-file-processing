@@ -1,7 +1,4 @@
 module.exports = function(script) {
-        console.log("__________".red);
-        console.log(script);
-        console.log("__________".red);
         script.conditionalBlock = script.conditionalBlock.toString().replace("\r\n", "\n");
         let keysArr = script.conditionalBlock.toString().split("\n");
         if (keysArr.length === 0){

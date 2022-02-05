@@ -98,53 +98,45 @@ function dataFormat(data){
 				</table>
 			</center>
 			<h1>Скрипты пользователя</h1>
-			<%console.log(history); history.forEach(script => { %>
+			<% history.forEach(scriptInfo => { %>
+			<% scriptInfo.scriptInfo.forEach(script => {  console.log(script) %>
 			<div class="element" onclick="clickElement(this)">
-				<input class="inputDate" value="<%= script.date %>" type="text" hidden="hidden">
-				<div data-date="<%= script.date %>" class="dataDiv" style="cursor: pointer">
-					<h2><%= script.scriptName %></h2>
-					<span class="dataFormat"><%= script.date %></span>
+				<input class="inputDate" value="<%= scriptInfo.date %>" type="text" hidden="hidden">
+				<div data-date="<%= scriptInfo.date %>" class="dataDiv" style="cursor: pointer">
+					<h2><%= script.nameScript %></h2>
+					<span class="dataFormat"><%= scriptInfo.date %></span>
 					<br>
-					Общее значение скрипта: <progress value="<%= Math.round(script.totalInfo) %>" max="100"></progress> <%= Math.round(script.totalInfo) %> %
+					Общее значение скрипта: <progress value="<%= Math.round(script.valueScript) %>" max="100"></progress> <%= script.ratioScript %> %
 					<br>
 					<div class="hiddenElement" data-type="hidden">
 					<h3>Разделы</h3>
 
-					<%script.arrChapters.forEach(chapter => { console.log(chapter)%>
-					<% chapter.forEach(chapter_B => { %>
+					<%script.Chapters.forEach(chapter_B => {%>
 						<%= chapter_B.nameChapter %>
 						<progress
-								value="<%= +chapter_B.weightChapter %>"
-								max="<%= +chapter_B.generalChapter %>">
+								value="<%= +chapter_B.valueChapter %>"
+								max="<%= +chapter_B.maxValueChapter %>">
 						</progress>
-						<%=  Math.round(+chapter_B.weightChapter * 100 / +chapter_B.generalChapter) %> %
+						<%=  chapter_B.ratioChapter %> %
 						<br>
 
-					<% chapter_B.arrBlocks.forEach(block => { %>
-						<h3>Блоки</h3>
-						<h4><%= block.nameBlock %></h4>
-						<h4>Вес блока <progress
-									value="<%= block.weightBlock %>"
-									max="<%= block.generalBlockWeight %>"
-							></progress><%= Math.round((block.weightBlock * 100) / block.generalBlockWeight) %> %
-							(<%= Math.round(block.weightBlock) %> / <%= block.generalBlockWeight %>)
+							<h3>Блоки</h3>
+					<% chapter_B.Blocks.forEach(block => { %>
+						<h4><%= block.nameBlock %><progress
+									value="<%= block.valueBlock %>"
+									max="<%= block.maxValueBlock %>"
+							></progress><%= block.ratioBlock %> %
+							(<%= Math.round(block.valueBlock) %> / <%= block.maxValueBlock %>)
 						</h4>
-							<% block.generalWords.forEach(generalWord => {
-								if(block.arrWords.indexOf(generalWord) !== -1){ %>
-									<p class="WordBlock WordYes"><%= generalWord %></p>
-								<% }else{ %>
-									<p class="WordBlock WordNo"><%= generalWord %></p>
-								<% } %>
-							<%})%>
-							<!--<button onclick="check = false;" disabled>Применить изменения</button><br><br> -->
-					<% }); });%>
+					<% });%>
 					<% })%>
 					<hr>
 				</div>
 				</div>
 			<%
 			%></div><%
-			})%>
+			}) })%>
+
 		</div>
 		<div class="abc" id="LangTable">
 			<a href="/userInfo">Назад</a>

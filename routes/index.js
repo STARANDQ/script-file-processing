@@ -71,6 +71,7 @@ const post_editScriptStatus = require("./post_editScriptStatus");
 const post_addScript = require("./post_addScript");
 const post_fileInfo = require("./post_fileInfo");
 const post_testing = require("./post_testing");
+const post_stats = require("./post_stats");
 
 // FUNCTION
 global.getFileUserName = require("./function_getFileUserName");
@@ -104,6 +105,7 @@ let dataScript = [];
 let dataFiles = [];
 
 router.get('/stats', (req, res, next) => {get_stats(req, res);});
+router.post('/stats', async (req, res, next) => {await post_stats(req, res);});
 
 router.get('/testing', (req, res, next) => {get_testing(req, res);});
 router.post('/testing', (req, res, next) => {post_testing(req, res);});
