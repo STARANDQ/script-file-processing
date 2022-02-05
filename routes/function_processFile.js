@@ -82,11 +82,12 @@ module.exports = function(fileID) {
 
                                 _arrBlocks.push({
                                     "nameBlock": _nameBlock,
-                                    "valueBlock": +result,
+                                    "valueBlock": +(result.number),
+                                    "wordsArr": result.wordsArr,
                                     "maxValueBlock": +block.blockWeight,
-                                    "ratioBlock":proportion(+block.blockWeight, +result)
-                                })
-                                WeightChapter += +result;
+                                    "ratioBlock":proportion(+block.blockWeight, +(result.number))
+                                });
+                                WeightChapter += +(result.number);
                                 maxWeightChapter += +block.blockWeight;
 
                             });
